@@ -10,9 +10,14 @@ class ClaimSource(BaseModel):
 class GroundedClaim(BaseModel):
     id: str
     claim_text: str
-    sources: List[ClaimSource]
+    sources: List[ClaimSource] = []
     verification_status: Literal["Verified", "Conflicting", "Uncertain", "Unsupported"]
     verification_note: str
+
+class ResearchTask(BaseModel):
+    task_id: str
+    focus_area: str
+    search_query: str
 
 class DecisionRequest(BaseModel):
     query: str = Field(..., min_length=5, max_length=1000)
