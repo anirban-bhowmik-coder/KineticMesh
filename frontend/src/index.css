@@ -10,12 +10,18 @@ body {
   margin: 0;
   background-color: #030712;
   color: #f8fafc;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", monospace, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 32px 32px;
+  background-attachment: fixed;
+}
+
+/* Monospace font utility */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Custom Tactical Scrollbar */
@@ -32,4 +38,13 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #10b981;
+}
+
+/* Glowing Ambient Gradients */
+.glow-emerald {
+  box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.15);
 }

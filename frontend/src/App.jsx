@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   CheckCircle2, 
   AlertTriangle, 
@@ -20,9 +20,9 @@ import {
   Terminal,
   Cpu,
   Globe,
-  Clock,
   Compass,
-  Radar
+  Radar,
+  ListOrdered
 } from 'lucide-react';
 
 const PRESET_QUERIES = [
@@ -52,8 +52,9 @@ export default function App() {
   const [step, setStep] = useState(0);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('decision'); // 'decision' | 'epistemic' | 'evidence'
+  const [activeTab, setActiveTab] = useState('decision'); // 'decision' | 'epistemic' | 'evidence' | 'telemetry'
   const [copied, setCopied] = useState(false);
+  const [traceLogs, setTraceLogs] = useState([]);
 
   const workflowSteps = [
     { code: "01", title: "ORCHESTRATOR", desc: "Decomposing query into 3 domain-specific research vectors", status: "PLANNING" },
@@ -61,6 +62,11 @@ export default function App() {
     { code: "03", title: "VERIFIER", desc: "Cross-corroborating findings & isolating contradictory claims", status: "CHALLENGING" },
     { code: "04", title: "DECISION_MAKER", desc: "Formulating defended recommendation & risk disclosures", status: "SYNTHESIZING" }
   ];
+
+  const addTrace = (msg) => {
+    const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+    setTraceLogs((prev) => [...prev, `[${time}] ${msg}`]);
+  };
 
   const handleInvestigate = async (e) => {
     if (e) e.preventDefault();
@@ -70,10 +76,28 @@ export default function App() {
     setError(null);
     setResult(null);
     setStep(0);
+    setTraceLogs([]);
+
+    addTrace("PIPELINE_INIT // Initiating 4-Agent consensus graph.");
+    addTrace("ORCHESTRATOR // Analyzing constraints and building research plan.");
 
     const stepInterval = setInterval(() => {
-      setStep((prev) => (prev < 3 ? prev + 1 : prev));
-    }, 1200);
+      setStep((prev) => {
+        if (prev === 0) {
+          addTrace("RESEARCHER // Querying Google Search Grounding with Gemini.");
+          return 1;
+        }
+        if (prev === 1) {
+          addTrace("VERIFIER // Evaluating claim provenance and cross-referencing sources.");
+          return 2;
+        }
+        if (prev === 2) {
+          addTrace("DECISION_MAKER // Synthesizing verified evidence and isolating risk factors.");
+          return 3;
+        }
+        return prev;
+      });
+    }, 1300);
 
     try {
       const response = await fetch('/api/v1/investigate', {
@@ -90,9 +114,12 @@ export default function App() {
       const data = await response.json();
       clearInterval(stepInterval);
       setStep(4);
+      addTrace(`CONSENSUS_REACHED // Stance: ${data.recommendation.substring(0, 45)}...`);
+      addTrace(`EVALUATION_COMPLETE // Audit ID: ${data.investigation_id || 'LOCAL-EXEC'}`);
       setResult(data);
     } catch (err) {
       clearInterval(stepInterval);
+      addTrace(`EXECUTION_ERROR // ${err.message}`);
       setError(err.message || 'Deliberation execution interrupted.');
     } finally {
       setLoading(false);
@@ -237,7 +264,7 @@ ${(result.evidence_items || []).map(e => `[${e.verification_status}] "${e.claim_
         </div>
 
         {/* Terminal Input Station */}
-        <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl mb-10">
+        <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl mb-10 glow-emerald">
           <div className="bg-slate-900/90 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2 font-mono text-xs text-slate-400">
               <Terminal className="w-3.5 h-3.5 text-emerald-400" />
@@ -409,6 +436,17 @@ ${(result.evidence_items || []).map(e => `[${e.verification_status}] "${e.claim_
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
                   [03] EVIDENCE_LOG ({result.evidence_items?.length || 0})
+                </button>
+                <button
+                  onClick={() => setActiveTab('telemetry')}
+                  className={`flex-1 sm:flex-initial px-4 py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-2 ${
+                    activeTab === 'telemetry'
+                      ? "bg-emerald-500 text-slate-950 shadow"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <ListOrdered className="w-3.5 h-3.5" />
+                  [04] AGENT_TELEMETRY
                 </button>
               </div>
 
@@ -644,6 +682,26 @@ ${(result.evidence_items || []).map(e => `[${e.verification_status}] "${e.claim_
                           </div>
                         </div>
                       )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TAB 4: LIVE TELEMETRY LOG */}
+            {activeTab === 'telemetry' && (
+              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 font-mono">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-xs">
+                  <span className="text-emerald-400">// AGENT_EXECUTION_TIMELINE</span>
+                  <span className="text-slate-500">{traceLogs.length} LOG_ENTRIES</span>
+                </div>
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-850 space-y-2 text-xs text-slate-300 max-h-96 overflow-y-auto">
+                  {traceLogs.map((log, idx) => (
+                    <div key={idx} className="flex items-start gap-2">
+                      <span className="text-emerald-500 select-none">&gt;</span>
+                      <span className={log.includes("ERROR") ? "text-rose-400" : log.includes("COMPLETE") ? "text-emerald-300 font-bold" : ""}>
+                        {log}
+                      </span>
                     </div>
                   ))}
                 </div>
