@@ -1,84 +1,118 @@
 import json
+import re
+import logging
+import uuid
+from datetime import datetime
 from google import genai
 from google.genai import types
 from app.core.config import settings
+from app.core.gemini import call_gemini_with_fallback
 from app.schemas.decision import GroundedClaim, DecisionResponse
-import uuid
-from datetime import datetime
+
+logger = logging.getLogger("kiro.decision_maker")
+
+def extract_json(text: str):
+    if not text:
+        return None
+    cleaned = text.strip()
+    if "```" in cleaned:
+        cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned, flags=re.MULTILINE)
+        cleaned = re.sub(r"\s*```$", "", cleaned, flags=re.MULTILINE)
+    cleaned = cleaned.strip()
+    try:
+        return json.loads(cleaned)
+    except Exception:
+        match = re.search(r"(\{.*\})", cleaned, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group(1))
+            except Exception:
+                pass
+    return None
 
 class DecisionMakerAgent:
     def __init__(self):
         self.api_key = settings.GEMINI_API_KEY
-        self.model = settings.GEMINI_MODEL
         self.client = genai.Client(api_key=self.api_key) if self.api_key else None
 
-    async def decide(self, original_query: str, verified_evidence: list[GroundedClaim]) -> DecisionResponse:
+    async def decide(
+        self, 
+        original_query: str, 
+        verified_evidence: list[GroundedClaim],
+        iterations_run: int = 1
+    ) -> DecisionResponse:
         if not self.client:
-            return self._fallback_decision(original_query, verified_evidence)
+            raise ValueError("GEMINI_API_KEY is not configured in backend/.env")
 
-        evidence_summary = json.dumps([c.model_dump() for c in verified_evidence], indent=2)
+        evidence_payload = [c.model_dump() for c in verified_evidence]
         prompt = f"""
-        Synthesize a defensible recommendation based on the evidence.
-        USER QUERY: "{original_query}"
-        EVIDENCE: {evidence_summary}
+        You are the Decision Maker Agent for KIRO.
+        Synthesize a defensible recommendation based STRICTLY on the verified evidence matrix.
 
-        Return ONLY a JSON object:
+        USER INQUIRY: "{original_query}"
+        VERIFIED EVIDENCE MATRIX:
+        {json.dumps(evidence_payload, indent=2)}
+
+        Return a JSON object:
         {{
-          "recommendation": "Headline stance",
-          "confidence_score": 0.82,
+          "recommendation": "Headline stance (e.g., CONDITIONAL APPROVAL: ...)",
+          "confidence_score": 0.85,
           "primary_reasons": ["Reason 1", "Reason 2", "Reason 3"],
-          "risks": ["Risk 1", "Risk 2"],
+          "facts": ["Empirical fact 1", "Empirical fact 2"],
+          "inferences": ["Logical inference 1", "Logical inference 2"],
+          "uncertainties": ["Data gap or uncertainty 1"],
+          "risks": ["Risk factor 1", "Risk factor 2"],
           "assumptions": ["Assumption 1", "Assumption 2"],
-          "next_steps": ["Step 1", "Step 2", "Step 3"]
+          "next_steps": ["Action step 1", "Action step 2", "Action step 3"]
         }}
         """
         try:
-            response = self.client.models.generate_content(
-                model=self.model,
+            response = call_gemini_with_fallback(
+                client=self.client,
                 contents=prompt,
-                config=types.GenerateContentConfig(temperature=0.2)
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0.1
+                )
             )
-            raw = response.text.replace("```json", "").replace("```", "").strip()
-            data = json.loads(raw)
-            return DecisionResponse(
-                query_id=str(uuid.uuid4()),
-                original_query=original_query,
-                recommendation=data["recommendation"],
-                confidence_score=float(data["confidence_score"]),
-                primary_reasons=data["primary_reasons"],
-                evidence_items=verified_evidence,
-                risks=data["risks"],
-                assumptions=data["assumptions"],
-                next_steps=data["next_steps"],
-                created_at=datetime.utcnow()
-            )
-        except Exception:
-            return self._fallback_decision(original_query, verified_evidence)
+            data = extract_json(response.text)
+            if data and "recommendation" in data:
+                conf = float(data.get("confidence_score", 0.8))
+                return DecisionResponse(
+                    investigation_id=str(uuid.uuid4()),
+                    original_query=original_query,
+                    recommendation=data["recommendation"],
+                    confidence_score=conf,
+                    model_assessed_confidence=conf,
+                    primary_reasons=data.get("primary_reasons", []),
+                    facts=data.get("facts", []),
+                    inferences=data.get("inferences", []),
+                    uncertainties=data.get("uncertainties", []),
+                    evidence_items=verified_evidence,
+                    risks=data.get("risks", []),
+                    assumptions=data.get("assumptions", []),
+                    next_steps=data.get("next_steps", []),
+                    iterations_run=iterations_run,
+                    created_at=datetime.utcnow()
+                )
+        except Exception as e:
+            logger.error(f"Decision Maker synthesis error: {e}")
 
-    def _fallback_decision(self, original_query: str, verified_evidence: list[GroundedClaim]) -> DecisionResponse:
+        # Graceful fallback if JSON parsing failed
         return DecisionResponse(
-            query_id=str(uuid.uuid4()),
+            investigation_id=str(uuid.uuid4()),
             original_query=original_query,
-            recommendation="CONDITIONAL APPROVAL: Proceed with commercial solar deployment only when paired with minimum 40% battery storage capacity.",
-            confidence_score=0.84,
-            primary_reasons=[
-                "Daytime self-consumption offsets 48% of high-tariff grid imports, providing reliable baseload operational savings.",
-                "Wholesale daytime export compensation is declining due to regional solar saturation, undermining standalone solar payback.",
-                "Battery storage resolves price cannibalization by shifting surplus energy to peak evening hours."
-            ],
+            recommendation=f"RECOMMENDATION: Review verified evidence findings for '{original_query[:60]}'.",
+            confidence_score=0.75,
+            model_assessed_confidence=0.75,
+            primary_reasons=[c.claim_text for c in verified_evidence[:3]],
+            facts=[c.claim_text for c in verified_evidence if c.verification_status == "Verified"],
+            inferences=["Evaluation indicates strategic consideration required."],
+            uncertainties=["Long-term market variance requires local confirmation."],
             evidence_items=verified_evidence,
-            risks=[
-                "Storage battery degradation rate exceeding manufacturer warranty specifications.",
-                "Potential local regulatory shifts regarding industrial grid injection surcharges."
-            ],
-            assumptions=[
-                "Facility load profile maintains heavy industrial power usage between 08:00 and 18:00 CET.",
-                "Warehouse roof structural integrity supports standard solar panel load without retrofitting."
-            ],
-            next_steps=[
-                "Request 15-minute interval utility load profiles for the past 12 months.",
-                "Solicit vendor bids requiring tiered performance guarantees and 10-year battery replacement warranties.",
-                "Model net ROI against hourly wholesale spot price indexing instead of static feed-in calculations."
-            ],
+            risks=["Potential variance in external regulatory conditions."],
+            assumptions=["Standard operational assumptions apply."],
+            next_steps=["Review extracted sources", "Confirm interval metrics with local provider"],
+            iterations_run=iterations_run,
             created_at=datetime.utcnow()
         )

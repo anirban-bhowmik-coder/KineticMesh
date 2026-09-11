@@ -2,119 +2,239 @@
 
 > **Don't just get an answer. Get a decision you can defend.**
 
-**KIRO** is a multi-agent intelligence system designed to help people make complex decisions using **research, verification, and structured reasoning**.
+KIRO is a multi-agent decision intelligence system designed for complex questions where a reliable answer requires more than a single AI response.
 
-Instead of relying on a single AI response, KIRO breaks a problem into smaller tasks, gathers evidence from multiple sources, challenges conflicting information, and synthesizes the findings into a transparent recommendation.
+Instead of asking one model to research, verify, and decide at once, KIRO separates the workflow into four specialized agents:
 
-Every decision is accompanied by its **evidence, assumptions, uncertainties, risks, and reasoning path**.
+**Plan → Research → Verify → Decide**
 
-**KIRO doesn't hide uncertainty. It makes it visible.**
+KIRO gathers information from multiple sources, identifies conflicting claims, evaluates the available evidence, and produces a structured recommendation with its supporting evidence, assumptions, risks, and uncertainties.
+
+> **KIRO doesn't hide uncertainty. It makes it visible.**
 
 ---
 
 ## Why KIRO?
 
-Most AI systems follow a simple pattern:
+A conventional AI workflow often looks like:
 
 ```text
-Question → AI → Answer
+User Question
+      ↓
+   AI Model
+      ↓
+    Answer
 ```
 
-KIRO follows a different approach:
+This can work well for general questions, but complex decisions introduce a different problem:
+
+> **How do you know the answer is actually supported?**
+
+Important decisions can depend on:
+
+* multiple information sources
+* changing data
+* conflicting claims
+* incomplete information
+* different assumptions
+* source reliability
+* competing alternatives
+
+KIRO turns this into a structured investigation:
 
 ```text
 Question
    ↓
-Understand
+Understand the objective
    ↓
-Decompose
+Decompose the problem
    ↓
-Research
+Research relevant evidence
    ↓
-Verify
+Verify and cross-check
    ↓
-Challenge Conflicts
+Identify conflicts and uncertainty
    ↓
-Reason
+Reason over verified findings
    ↓
-Decision
+Produce a defensible recommendation
 ```
 
-This allows KIRO to separate what is **known** from what is **inferred** and what remains **uncertain**.
+The goal isn't to make AI sound more confident.
 
-The result isn't simply an answer.
-
-It's a decision that can be inspected, questioned, and defended.
+**The goal is to make the reasoning easier to inspect.**
 
 ---
 
-# 🤖 Four-Agent Intelligence
+# 🤖 Four-Agent Architecture
 
-KIRO uses four specialized agents, each responsible for a distinct stage of the decision process.
+KIRO uses four specialized agents with clearly separated responsibilities.
 
-| Agent                 | Role         | Responsibility                                                                                                                                  |
-| --------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🧭 **Orchestrator**   | Planner      | Understands the objective, decomposes it into research tasks, coordinates the agents, and determines when additional investigation is required. |
-| 🔎 **Researcher**     | Investigator | Searches for relevant information and extracts atomic claims with their supporting sources.                                                     |
-| 🛡️ **Verifier**      | Challenger   | Cross-checks claims, detects contradictions, evaluates evidence quality, and identifies unsupported or uncertain information.                   |
-| 🧠 **Decision Maker** | Strategist   | Synthesizes verified evidence into a recommendation with confidence, risks, assumptions, and actionable next steps.                             |
+| Agent                 | Role         | Responsibility                                                                                                |
+| --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------- |
+| 🧭 **Orchestrator**   | Planner      | Understands the objective, identifies constraints, decomposes the problem, and coordinates the investigation. |
+| 🔎 **Researcher**     | Investigator | Searches for relevant information and extracts claims with supporting source information.                     |
+| 🛡️ **Verifier**      | Challenger   | Cross-checks claims, detects contradictions, evaluates evidence quality, and identifies uncertainty.          |
+| 🧠 **Decision Maker** | Synthesizer  | Uses the verified findings to produce a recommendation, risks, assumptions, confidence, and next steps.       |
 
-### The agents don't simply pass text around.
+Each agent has a defined input and output contract using **Pydantic models**.
 
-Each stage has a defined responsibility and structured input/output contract.
-
-If the evidence isn't strong enough, the workflow can return to research rather than forcing a conclusion.
-
-```text
-                    USER
-                      │
-                      ▼
-              ┌──────────────┐
-              │ ORCHESTRATOR │
-              │    PLAN      │
-              └──────┬───────┘
-                     │
-                     ▼
-              ┌──────────────┐
-              │  RESEARCHER  │
-              │    FIND      │
-              └──────┬───────┘
-                     │
-                     ▼
-              ┌──────────────┐
-              │   VERIFIER   │
-              │ CHECK + TEST │
-              └──────┬───────┘
-                     │
-              ┌──────┴──────┐
-              │             │
-          Evidence OK    Evidence Weak
-              │             │
-              │             └──────→ Research Again
-              ▼
-       ┌───────────────┐
-       │ DECISION MAKER│
-       │   REASON      │
-       └───────┬───────┘
-               │
-               ▼
-          FINAL DECISION
-```
+This keeps the agents from becoming four independent chatbots and instead makes them components of one controlled workflow.
 
 ---
 
-# 🔬 Evidence Before Confidence
+## 🧭 1. Orchestrator
 
-KIRO is built around a simple principle:
+The Orchestrator is responsible for understanding **what needs to be investigated**.
 
-> **Confidence should come from evidence, not from how convincing an answer sounds.**
+For example:
 
-Every important conclusion follows an evidence chain:
+```text
+User:
+"Should I invest in solar with battery storage?"
+
+Orchestrator:
+
+Research Task 1 → Energy economics
+Research Task 2 → Installation costs
+Research Task 3 → Battery economics
+Research Task 4 → Regulations
+Research Task 5 → Market conditions
+```
+
+The Orchestrator doesn't make the final recommendation.
+
+It creates the investigation plan and coordinates the other agents.
+
+---
+
+## 🔎 2. Researcher
+
+The Researcher is responsible for **finding evidence**.
+
+It uses Gemini together with grounded search capabilities to investigate the tasks created by the Orchestrator.
+
+Its output is structured around claims and their supporting sources rather than a single block of generated text.
+
+Conceptually:
+
+```text
+Research Task
+      ↓
+Search
+      ↓
+Relevant Sources
+      ↓
+Claims
+      ↓
+Evidence Records
+```
+
+The Researcher does not decide what the user should do.
+
+---
+
+## 🛡️ 3. Verifier
+
+The Verifier acts as the system's challenge layer.
+
+It asks:
+
+> **"Do we have enough evidence to support this claim?"**
+
+It examines:
+
+* source agreement
+* conflicting values
+* publication dates
+* outdated information
+* weak evidence
+* unsupported claims
+
+Claims are classified as:
+
+| Status            | Meaning                                                          |
+| ----------------- | ---------------------------------------------------------------- |
+| ✓ **Verified**    | Available evidence sufficiently supports the claim.              |
+| ⚠ **Conflicting** | Sources provide materially different information.                |
+| ⚠ **Uncertain**   | Evidence exists but isn't sufficient for a confident conclusion. |
+| ✕ **Unsupported** | The available evidence does not adequately support the claim.    |
+
+When important evidence is missing, the investigation can request additional research rather than immediately producing a conclusion.
+
+---
+
+## 🧠 4. Decision Maker
+
+The Decision Maker receives the verified findings and converts them into an actionable result.
+
+A decision contains:
+
+* **Recommendation**
+* **Confidence**
+* **Supporting reasons**
+* **Verified findings**
+* **Uncertainties**
+* **Risks**
+* **Assumptions**
+* **Next steps**
+
+KIRO also separates:
+
+### FACT
+
+Information directly supported by evidence.
+
+### INFERENCE
+
+A conclusion derived from the available evidence.
+
+### UNCERTAINTY
+
+Information that remains unresolved or requires additional data.
+
+---
+
+# 🔄 Agent Feedback Loop
+
+The workflow is designed to avoid forcing a decision when the evidence is insufficient.
+
+```text
+                 ┌──────────────┐
+                 │ Orchestrator │
+                 └──────┬───────┘
+                        ↓
+                 ┌──────────────┐
+                 │  Researcher  │
+                 └──────┬───────┘
+                        ↓
+                 ┌──────────────┐
+                 │   Verifier   │
+                 └──────┬───────┘
+                        │
+              ┌─────────┴─────────┐
+              ↓                   ↓
+        Evidence sufficient   Evidence weak
+              │                   │
+              ↓                   ↓
+       Decision Maker        More Research
+              │                   │
+              ↓                   │
+            Result ←──────────────┘
+```
+
+A maximum investigation depth should be enforced so that unresolved evidence cannot create an infinite agent loop.
+
+---
+
+# 🔬 Evidence Trail
+
+KIRO treats the final recommendation as the end of an evidence chain rather than an isolated AI response.
 
 ```text
 Decision
    ↓
-Reason
+Reasoning Premise
    ↓
 Verified Claim
    ↓
@@ -123,132 +243,158 @@ Evidence
 Source
 ```
 
-Claims are classified into four states:
+This allows a user to move backwards from a recommendation and inspect the information that contributed to it.
 
-### ✓ Verified
+The objective is simple:
 
-The available evidence sufficiently supports the claim.
-
-### ⚠ Conflicting
-
-Credible sources disagree and the disagreement must be considered.
-
-### ⚠ Uncertain
-
-Evidence exists, but it isn't strong enough for a confident conclusion.
-
-### ✕ Unsupported
-
-The available evidence does not adequately support the claim.
-
-This prevents conflicting information from being silently averaged into a seemingly certain answer.
+> **A user should be able to question the decision without having to blindly trust the model.**
 
 ---
 
-# 🧩 What KIRO Produces
+# 🌍 Example Investigation
 
-A KIRO investigation doesn't end with a paragraph of generated text.
+### Question
 
-The result is structured into:
-
-### Decision
-
-The recommended course of action.
-
-### Confidence
-
-How strongly the available evidence supports that recommendation.
-
-### Evidence
-
-The important claims and their sources.
-
-### Facts
-
-Information directly supported by evidence.
-
-### Inferences
-
-Conclusions derived from verified information.
-
-### Uncertainties
-
-Variables that remain unresolved or require additional data.
-
-### Risks
-
-Factors that could materially change the recommendation.
-
-### Next Steps
-
-Concrete actions the user can take.
-
----
-
-# 🌍 Designed for Complex Decisions
-
-KIRO is designed around problems where the answer isn't contained in a single source.
-
-For example:
-
-> **"Should a commercial facility invest in solar panels with battery storage?"**
+> **Should a commercial facility invest in solar panels with battery storage?**
 
 KIRO can investigate:
 
-* current market conditions
-* regulations
-* installation costs
-* operating costs
-* incentives
-* historical data
-* technical constraints
-* competing projections
+```text
+Energy prices
+Installation costs
+Battery economics
+Operating profile
+Regulations
+Market conditions
+Competing projections
+```
 
-If two sources disagree, the Verifier investigates the disagreement rather than silently selecting whichever answer looks better.
+Suppose the Researcher finds two different payback estimates.
 
-The final recommendation can therefore say:
+Instead of silently selecting one:
 
-> **Proceed — but only under these conditions.**
+```text
+Source A → 4-year estimate
+Source B → 8-year estimate
+```
 
-rather than pretending the decision is simply *yes* or *no*.
+the Verifier identifies the disagreement and investigates the underlying assumptions.
+
+The final result could therefore look like:
+
+```text
+RECOMMENDATION
+
+Conditional approval
+
+CONFIDENCE
+
+78%
+
+SUPPORTED FINDINGS
+
+✓ Current market conditions
+✓ Installation cost range
+
+UNCERTAINTIES
+
+⚠ Future electricity prices
+⚠ Actual operating profile
+
+RISKS
+
+• Market volatility
+• Storage degradation
+
+NEXT STEPS
+
+1. Obtain current quotations
+2. Analyze historical consumption
+3. Recalculate using current assumptions
+```
+
+The exact recommendation depends on the evidence retrieved during the investigation.
 
 ---
 
-# 🏗️ Architecture
+# 🧠 Where Gemini Fits
+
+Gemini provides the core model intelligence inside KIRO.
+
+It can be used across different stages for:
 
 ```text
-┌───────────────────────────────────────────┐
-│                KIRO UI                    │
-│             React + Vite                  │
-└─────────────────────┬─────────────────────┘
+                    KIRO
                       │
-                      │ HTTP / JSON
-                      ▼
-┌───────────────────────────────────────────┐
-│              FASTAPI API                  │
-│       Validation + Application State      │
-└─────────────────────┬─────────────────────┘
-                      │
-                      ▼
-              ┌───────────────┐
-              │ ORCHESTRATOR  │
-              └───────┬───────┘
-                      │
-              ┌───────▼───────┐
-              │   RESEARCHER  │
-              └───────┬───────┘
-                      │
-              ┌───────▼───────┐
-              │    VERIFIER   │
-              └───────┬───────┘
-                      │
-              ┌───────▼───────┐
-              │ DECISION MAKER│
-              └───────┬───────┘
-                      │
-          ┌───────────┴───────────┐
-          ▼                       ▼
-   Evidence / State          Final Decision
+          ┌───────────┼───────────┐
+          ↓           ↓           ↓
+      Planning     Research   Verification
+          │           │           │
+          └───────────┼───────────┘
+                      ↓
+               Decision Synthesis
+```
+
+However, Gemini is **not the entire application**.
+
+The application layer controls:
+
+* agent boundaries
+* workflow execution
+* Pydantic validation
+* tool access
+* evidence structures
+* verification states
+* retries and failure handling
+* investigation state
+* final response formatting
+
+This separation allows KIRO to use model intelligence without making the entire application dependent on an unstructured model response.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+┌──────────────────────────────────────────┐
+│                 KIRO UI                  │
+│              React + Vite                │
+└────────────────────┬─────────────────────┘
+                     │
+                     │ HTTPS / JSON
+                     ▼
+┌──────────────────────────────────────────┐
+│               FastAPI API                │
+│     Validation + Workflow Management     │
+└────────────────────┬─────────────────────┘
+                     │
+                     ▼
+             ┌───────────────┐
+             │ Orchestrator  │
+             └───────┬───────┘
+                     │
+                     ▼
+             ┌───────────────┐
+             │   Researcher  │
+             │ Gemini + Search│
+             └───────┬───────┘
+                     │
+                     ▼
+             ┌───────────────┐
+             │    Verifier   │
+             └───────┬───────┘
+                     │
+                ┌────┴────┐
+                │         │
+              Valid     Insufficient
+                │         │
+                ↓         └──────→ Research
+         ┌───────────────┐
+         │ Decision Maker│
+         └───────┬───────┘
+                 │
+                 ↓
+          Evidence + Decision
 ```
 
 ---
@@ -260,7 +406,7 @@ rather than pretending the decision is simply *yes* or *no*.
 * React 18
 * Vite
 * Tailwind CSS
-* Lucide Icons
+* Lucide React
 
 ### Backend
 
@@ -268,20 +414,18 @@ rather than pretending the decision is simply *yes* or *no*.
 * FastAPI
 * Uvicorn
 * Pydantic v2
+* HTTPX
 
-### AI & Agents
+### AI
 
 * Google GenAI SDK
 * Gemini
 * Google Search grounding
-* Structured agent contracts
 
 ### Infrastructure
 
 * Docker
 * Google Cloud Run
-
-The architecture is intentionally modular so additional models, tools, data sources, and agent capabilities can be introduced without redesigning the entire system.
 
 ---
 
@@ -299,7 +443,11 @@ kiro/
 │   │   │   └── decision_maker.py
 │   │   │
 │   │   ├── core/
+│   │   │   └── config.py
+│   │   │
 │   │   ├── schemas/
+│   │   │   └── decision.py
+│   │   │
 │   │   └── main.py
 │   │
 │   ├── requirements.txt
@@ -307,53 +455,87 @@ kiro/
 │
 ├── frontend/
 │   ├── src/
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── index.html
 │   ├── package.json
+│   ├── tailwind.config.js
 │   └── vite.config.js
 │
 ├── docs/
 │   └── architecture.md
 │
 ├── .env.example
-├── docker-compose.yml
 ├── .gitignore
+├── docker-compose.yml
+├── LICENSE
 └── README.md
 ```
 
 ---
 
-# 🚀 Run Locally
+# 🚀 Local Setup
 
-### Backend
+## 1. Clone
+
+```bash
+git clone https://github.com/anirban-bhowmik-coder/Kiro.git
+cd Kiro
+```
+
+## 2. Backend
 
 ```bash
 cd backend
 
 python -m venv venv
+```
 
-# Windows
-venv\Scripts\activate
+### Windows
 
-# macOS / Linux
+```bash
+.\venv\Scripts\activate
+```
+
+### macOS / Linux
+
+```bash
 source venv/bin/activate
+```
 
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
+Start the API:
+
+```bash
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-### Frontend
+Health check:
+
+```text
+http://localhost:8000/health
+```
+
+---
+
+## 3. Frontend
 
 Open another terminal:
 
 ```bash
 cd frontend
-
 npm install
-
 npm run dev
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:5173
@@ -370,28 +552,52 @@ GEMINI_API_KEY=your_api_key_here
 GEMINI_MODEL=your_supported_gemini_model
 ```
 
-Never commit API keys, credentials, or `.env` files to the repository.
+Never commit API keys, service-account credentials, or `.env` files to the repository.
 
 ---
 
-# 🛡️ Reliability Principles
+# ☁️ Deployment
 
-KIRO is designed with an important constraint:
+KIRO is containerized for deployment on Google Cloud Run.
 
-> **When the evidence isn't sufficient, the system should be able to say "I don't know."**
+The intended production architecture is:
 
-The system therefore aims to:
+```text
+User
+ ↓
+KIRO
+ ↓
+Google Cloud Run
+ ↓
+FastAPI
+ ↓
+Agent Workflow
+ ↓
+Gemini + Grounded Search
+ ↓
+Evidence + Decision
+```
 
-* preserve source attribution
-* surface conflicting evidence
-* distinguish facts from inferences
-* expose uncertainty
-* avoid unsupported conclusions
-* validate structured agent outputs
-* preserve an investigation trail
-* request additional research when evidence is insufficient
+The same application architecture can be run locally and in the cloud.
 
-The system does not treat fluent language as proof.
+---
+
+# ⚠️ Limitations
+
+KIRO does not guarantee that every generated conclusion is factually correct.
+
+Grounded retrieval and cross-source verification can reduce unsupported conclusions, but they cannot eliminate uncertainty or guarantee the correctness of external information.
+
+KIRO therefore treats:
+
+* source provenance
+* conflicting evidence
+* uncertainty
+* incomplete information
+
+as first-class parts of the decision process.
+
+The system should prefer **"insufficient evidence"** over an unsupported conclusion.
 
 ---
 
@@ -401,14 +607,14 @@ The system does not treat fluent language as proof.
 
 * [x] React interface
 * [x] FastAPI backend
-* [x] Structured decision schema
+* [x] Pydantic data contracts
 * [x] Local development environment
 
-### Intelligence
+### Agent Intelligence
 
 * [ ] Live Gemini integration
-* [ ] Orchestrator agent
-* [ ] Research agent
+* [ ] Orchestrator implementation
+* [ ] Researcher implementation
 * [ ] Grounded search
 
 ### Verification
@@ -420,25 +626,25 @@ The system does not treat fluent language as proof.
 
 ### Decision Intelligence
 
-* [ ] Evidence-weighted recommendations
+* [ ] Evidence-backed recommendations
 * [ ] Confidence estimation
 * [ ] Risk analysis
 * [ ] Action planning
 
 ### Cloud
 
-* [ ] Containerized deployment
-* [ ] Google Cloud Run
+* [ ] Production container
+* [ ] Google Cloud Run deployment
 * [ ] Production configuration
 * [ ] Observability
 
 ### Future
 
 * [ ] Persistent decision memory
-* [ ] Additional tools and data sources
+* [ ] Additional data sources
 * [ ] Multimodal investigations
 * [ ] Continuous decision monitoring
-* [ ] Expanded autonomous workflows
+* [ ] Expanded tool-based actions
 
 ---
 
@@ -448,9 +654,8 @@ MIT License
 
 ---
 
-## KIRO
+# KIRO
 
-**Know. Verify. Decide.**
+### **Know. Verify. Decide.**
 
 > **Don't just get an answer. Get a decision you can defend.**
-
