@@ -1,661 +1,670 @@
-# KIRO — Autonomous Decision Intelligence
+<div align="center">
 
-> **Don't just get an answer. Get a decision you can defend.**
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,35:111827,70:172554,100:06b6d4&height=230&section=header&text=ANIRBAN%20BHOWMIK&fontSize=48&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI%2FML%20%E2%80%A2%20BUILDER%20%E2%80%A2%20EXPERIMENTER&descAlignY=61&descSize=16"/>
 
-KIRO is a multi-agent decision intelligence system designed for complex questions where a reliable answer requires more than a single AI response.
+<br>
 
-Instead of asking one model to research, verify, and decide at once, KIRO separates the workflow into four specialized agents:
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2600&pause=700&color=06B6D4&center=true&vCenter=true&width=850&lines=INITIALIZING+ANIRBAN.OS...;ARTIFICIAL+INTELLIGENCE+%26+MACHINE+LEARNING;GENERATIVE+AI+%7C+AGENTIC+SYSTEMS;TURNING+IDEAS+INTO+WORKING+SYSTEMS;BUILD+%E2%86%92+BREAK+%E2%86%92+LEARN+%E2%86%92+REBUILD"/>
 
-**Plan → Research → Verify → Decide**
+<br>
 
-KIRO gathers information from multiple sources, identifies conflicting claims, evaluates the available evidence, and produces a structured recommendation with its supporting evidence, assumptions, risks, and uncertainties.
+<img src="https://img.shields.io/badge/SYSTEM-ACTIVE-06B6D4?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/AI%2FML-EXPLORING-7C3AED?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/GEN%20AI-BUILDING-0891B2?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/OPEN%20TO-OPPORTUNITIES-16A34A?style=for-the-badge"/>
 
-> **KIRO doesn't hide uncertainty. It makes it visible.**
+</div>
 
 ---
 
-## Why KIRO?
-
-A conventional AI workflow often looks like:
+<div align="center">
 
 ```text
-User Question
-      ↓
-   AI Model
-      ↓
-    Answer
+╔══════════════════════════════════════════════════════════════════════╗
+║                        ANIRBAN.OS // PROFILE                        ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║   ROLE        ::  AI/ML STUDENT + BUILDER                           ║
+║   MODE        ::  LEARN → BUILD → BREAK → REBUILD                   ║
+║   CURRENT     ::  INTELLIGENT SYSTEMS                               ║
+║   INTERESTS   ::  AI • GEN AI • AGENTS • DATA • WEB                 ║
+║   STATUS      ::  ● ONLINE                                          ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
 ```
 
-This can work well for general questions, but complex decisions introduce a different problem:
+</div>
 
-> **How do you know the answer is actually supported?**
+## 🧠 WHO AM I
 
-Important decisions can depend on:
+> **I don't want to just use intelligent systems.  
+> I want to understand how they are built.**
 
-* multiple information sources
-* changing data
-* conflicting claims
-* incomplete information
-* different assumptions
-* source reliability
-* competing alternatives
+I'm **Anirban Bhowmik**, a Computer Science & Engineering student specializing in **Artificial Intelligence & Machine Learning**.
 
-KIRO turns this into a structured investigation:
+I'm exploring the intersection of:
+
+`AI / ML` · `Generative AI` · `Agentic Systems` · `Data` · `Software Engineering`
+
+My approach is simple:
 
 ```text
-Question
-   ↓
-Understand the objective
-   ↓
-Decompose the problem
-   ↓
-Research relevant evidence
-   ↓
-Verify and cross-check
-   ↓
-Identify conflicts and uncertainty
-   ↓
-Reason over verified findings
-   ↓
-Produce a defensible recommendation
+LEARN
+  ↓
+UNDERSTAND
+  ↓
+BUILD
+  ↓
+BREAK
+  ↓
+DEBUG
+  ↓
+REBUILD
+  ↓
+IMPROVE
 ```
 
-The goal isn't to make AI sound more confident.
-
-**The goal is to make the reasoning easier to inspect.**
-
 ---
 
-# 🤖 Four-Agent Architecture
-
-KIRO uses four specialized agents with clearly separated responsibilities.
-
-| Agent                 | Role         | Responsibility                                                                                                |
-| --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------- |
-| 🧭 **Orchestrator**   | Planner      | Understands the objective, identifies constraints, decomposes the problem, and coordinates the investigation. |
-| 🔎 **Researcher**     | Investigator | Searches for relevant information and extracts claims with supporting source information.                     |
-| 🛡️ **Verifier**      | Challenger   | Cross-checks claims, detects contradictions, evaluates evidence quality, and identifies uncertainty.          |
-| 🧠 **Decision Maker** | Synthesizer  | Uses the verified findings to produce a recommendation, risks, assumptions, confidence, and next steps.       |
-
-Each agent has a defined input and output contract using **Pydantic models**.
-
-This keeps the agents from becoming four independent chatbots and instead makes them components of one controlled workflow.
-
----
-
-## 🧭 1. Orchestrator
-
-The Orchestrator is responsible for understanding **what needs to be investigated**.
-
-For example:
+## ⚡ CURRENT FOCUS
 
 ```text
-User:
-"Should I invest in solar with battery storage?"
-
-Orchestrator:
-
-Research Task 1 → Energy economics
-Research Task 2 → Installation costs
-Research Task 3 → Battery economics
-Research Task 4 → Regulations
-Research Task 5 → Market conditions
+┌──────────────────────────────────────────────────────────────┐
+│                        CURRENT STACK                         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  PROGRAMMING        → C++ / Python                           │
+│  AI / ML            → Machine Learning                       │
+│  GENERATIVE AI      → LLMs / AI Applications                 │
+│  AGENTIC AI         → Multi-Agent Systems                    │
+│  DATA               → Analysis / Visualization               │
+│  DEVELOPMENT        → Web / Backend / APIs                   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-The Orchestrator doesn't make the final recommendation.
-
-It creates the investigation plan and coordinates the other agents.
-
 ---
 
-## 🔎 2. Researcher
+# 🚀 PROJECTS
 
-The Researcher is responsible for **finding evidence**.
+## 🛡️ ZeroTrace
 
-It uses Gemini together with grounded search capabilities to investigate the tasks created by the Orchestrator.
+### `SECURE DATA ERASURE & VERIFICATION PLATFORM`
 
-Its output is structured around claims and their supporting sources rather than a single block of generated text.
-
-Conceptually:
+A cybersecurity platform focused on **secure data erasure, verification, recovery awareness and evidence generation**.
 
 ```text
-Research Task
-      ↓
-Search
-      ↓
-Relevant Sources
-      ↓
-Claims
-      ↓
-Evidence Records
+                         DEVICE
+                           │
+                           ▼
+                      ┌─────────┐
+                      │ DETECT  │
+                      └────┬────┘
+                           │
+                           ▼
+                      ┌─────────┐
+                      │SANITIZE │
+                      └────┬────┘
+                           │
+                           ▼
+                      ┌─────────┐
+                      │ VERIFY  │
+                      └────┬────┘
+                           │
+                           ▼
+                      ┌─────────┐
+                      │ EVIDENCE│
+                      └────┬────┘
+                           │
+                           ▼
+                      ┌─────────┐
+                      │ REPORT  │
+                      └─────────┘
 ```
 
-The Researcher does not decide what the user should do.
+**Focus**
 
----
+`Secure Erasure` · `Verification` · `Recovery Awareness` · `Security` · `Compliance`
 
-## 🛡️ 3. Verifier
+**Stack**
 
-The Verifier acts as the system's challenge layer.
+`React` · `TypeScript` · `JavaScript` · `Python` · `Vite` · `Tailwind`
 
-It asks:
-
-> **"Do we have enough evidence to support this claim?"**
-
-It examines:
-
-* source agreement
-* conflicting values
-* publication dates
-* outdated information
-* weak evidence
-* unsupported claims
-
-Claims are classified as:
-
-| Status            | Meaning                                                          |
-| ----------------- | ---------------------------------------------------------------- |
-| ✓ **Verified**    | Available evidence sufficiently supports the claim.              |
-| ⚠ **Conflicting** | Sources provide materially different information.                |
-| ⚠ **Uncertain**   | Evidence exists but isn't sufficient for a confident conclusion. |
-| ✕ **Unsupported** | The available evidence does not adequately support the claim.    |
-
-When important evidence is missing, the investigation can request additional research rather than immediately producing a conclusion.
-
----
-
-## 🧠 4. Decision Maker
-
-The Decision Maker receives the verified findings and converts them into an actionable result.
-
-A decision contains:
-
-* **Recommendation**
-* **Confidence**
-* **Supporting reasons**
-* **Verified findings**
-* **Uncertainties**
-* **Risks**
-* **Assumptions**
-* **Next steps**
-
-KIRO also separates:
-
-### FACT
-
-Information directly supported by evidence.
-
-### INFERENCE
-
-A conclusion derived from the available evidence.
-
-### UNCERTAINTY
-
-Information that remains unresolved or requires additional data.
-
----
-
-# 🔄 Agent Feedback Loop
-
-The workflow is designed to avoid forcing a decision when the evidence is insufficient.
+### 🏆 HACKATHON
 
 ```text
-                 ┌──────────────┐
-                 │ Orchestrator │
-                 └──────┬───────┘
-                        ↓
-                 ┌──────────────┐
-                 │  Researcher  │
-                 └──────┬───────┘
-                        ↓
-                 ┌──────────────┐
-                 │   Verifier   │
-                 └──────┬───────┘
-                        │
-              ┌─────────┴─────────┐
-              ↓                   ↓
-        Evidence sufficient   Evidence weak
-              │                   │
-              ↓                   ↓
-       Decision Maker        More Research
-              │                   │
-              ↓                   │
-            Result ←──────────────┘
+SMART INDIA HACKATHON 2026
+
+ROUND 03
+   │
+   ▼
+ROUND 04
 ```
 
-A maximum investigation depth should be enforced so that unresolved evidence cannot create an infinite agent loop.
+**STATUS :: 🟢 ACTIVE**
 
 ---
 
-# 🔬 Evidence Trail
+## 🧠 KIRO
 
-KIRO treats the final recommendation as the end of an evidence chain rather than an isolated AI response.
+### `AUTONOMOUS DECISION INTELLIGENCE ENGINE`
 
-```text
-Decision
-   ↓
-Reasoning Premise
-   ↓
-Verified Claim
-   ↓
-Evidence
-   ↓
-Source
-```
+KIRO is a multi-agent decision intelligence system designed for problems where a reliable answer requires **research, verification and structured reasoning**.
 
-This allows a user to move backwards from a recommendation and inspect the information that contributed to it.
-
-The objective is simple:
-
-> **A user should be able to question the decision without having to blindly trust the model.**
-
----
-
-# 🌍 Example Investigation
-
-### Question
-
-> **Should a commercial facility invest in solar panels with battery storage?**
-
-KIRO can investigate:
+### `CORE ARCHITECTURE`
 
 ```text
-Energy prices
-Installation costs
-Battery economics
-Operating profile
-Regulations
-Market conditions
-Competing projections
-```
-
-Suppose the Researcher finds two different payback estimates.
-
-Instead of silently selecting one:
-
-```text
-Source A → 4-year estimate
-Source B → 8-year estimate
-```
-
-the Verifier identifies the disagreement and investigates the underlying assumptions.
-
-The final result could therefore look like:
-
-```text
-RECOMMENDATION
-
-Conditional approval
-
-CONFIDENCE
-
-78%
-
-SUPPORTED FINDINGS
-
-✓ Current market conditions
-✓ Installation cost range
-
-UNCERTAINTIES
-
-⚠ Future electricity prices
-⚠ Actual operating profile
-
-RISKS
-
-• Market volatility
-• Storage degradation
-
-NEXT STEPS
-
-1. Obtain current quotations
-2. Analyze historical consumption
-3. Recalculate using current assumptions
-```
-
-The exact recommendation depends on the evidence retrieved during the investigation.
-
----
-
-# 🧠 Where Gemini Fits
-
-Gemini provides the core model intelligence inside KIRO.
-
-It can be used across different stages for:
-
-```text
-                    KIRO
+                         USER OBJECTIVE
+                               │
+                               ▼
+                    ┌────────────────────┐
+                    │   ORCHESTRATOR     │
+                    │  PLAN + DECOMPOSE  │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │     RESEARCHER     │
+                    │   FIND EVIDENCE    │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │      VERIFIER      │
+                    │ CROSS-CHECK CLAIMS │
+                    └─────────┬──────────┘
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+                    ▼                   ▼
+              EVIDENCE STRONG      EVIDENCE WEAK
+                    │                   │
+                    │                   └──────► MORE RESEARCH
+                    ▼
+            ┌────────────────────┐
+            │   DECISION MAKER   │
+            │ SYNTHESIZE FINDING │
+            └─────────┬──────────┘
                       │
-          ┌───────────┼───────────┐
-          ↓           ↓           ↓
-      Planning     Research   Verification
-          │           │           │
-          └───────────┼───────────┘
-                      ↓
-               Decision Synthesis
+                      ▼
+              DEFENSIBLE DECISION
 ```
 
-However, Gemini is **not the entire application**.
+### `THE FOUR AGENTS`
 
-The application layer controls:
+| AGENT | RESPONSIBILITY |
+|---|---|
+| 🧭 **Orchestrator** | Plans and decomposes the investigation |
+| 🔎 **Researcher** | Finds evidence and supporting sources |
+| 🛡️ **Verifier** | Cross-checks claims and detects conflicts |
+| 🧠 **Decision Maker** | Synthesizes findings into a recommendation |
 
-* agent boundaries
-* workflow execution
-* Pydantic validation
-* tool access
-* evidence structures
-* verification states
-* retries and failure handling
-* investigation state
-* final response formatting
+KIRO keeps:
 
-This separation allows KIRO to use model intelligence without making the entire application dependent on an unstructured model response.
+`FACTS` · `INFERENCES` · `UNCERTAINTY`
+
+separate.
+
+Evidence states include:
+
+`VERIFIED` · `CONFLICTING` · `UNCERTAIN` · `UNSUPPORTED`
+
+**Stack**
+
+`React` · `Vite` · `Python` · `FastAPI` · `Pydantic` · `Gemini` · `Grounded Search`
+
+**STATUS :: 🟡 PHASE 1 · IN DEVELOPMENT**
 
 ---
 
-# 🏗️ System Architecture
+## 🪔 Puja Elo | পূজা এলো
+
+### `DIGITAL DURGA PUJA DISCOVERY & EXPERIENCE PLATFORM`
+
+A complete digital festival platform bringing together **pandal discovery, navigation, live experiences, creators, food, media and community**.
+
+🌐 **LIVE:** https://pujo-elo.vercel.app/
 
 ```text
-┌──────────────────────────────────────────┐
-│                 KIRO UI                  │
-│              React + Vite                │
-└────────────────────┬─────────────────────┘
-                     │
-                     │ HTTPS / JSON
-                     ▼
-┌──────────────────────────────────────────┐
-│               FastAPI API                │
-│     Validation + Workflow Management     │
-└────────────────────┬─────────────────────┘
-                     │
-                     ▼
-             ┌───────────────┐
-             │ Orchestrator  │
-             └───────┬───────┘
-                     │
-                     ▼
-             ┌───────────────┐
-             │   Researcher  │
-             │ Gemini + Search│
-             └───────┬───────┘
-                     │
-                     ▼
-             ┌───────────────┐
-             │    Verifier   │
-             └───────┬───────┘
-                     │
-                ┌────┴────┐
-                │         │
-              Valid     Insufficient
-                │         │
-                ↓         └──────→ Research
-         ┌───────────────┐
-         │ Decision Maker│
-         └───────┬───────┘
-                 │
-                 ↓
-          Evidence + Decision
+                         🪔 PUJA ELO
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+      DISCOVERY           EXPERIENCE          COMMUNITY
+          │                   │                   │
+     ┌────┴────┐         ┌────┴────┐        ┌────┴────┐
+     │         │         │         │        │         │
+   PANDALS   ROUTES     LIVE      MEDIA   CREATORS   REELS
+   PLACES    LOCATIONS  DARSHAN   STREAM   STORIES    CHAT
+     │         │         │         │        │         │
+     └─────────┴─────────┴─────────┴────────┴─────────┘
+                              │
+                              ▼
+                     FESTIVAL ECOSYSTEM
 ```
 
----
-
-# ⚙️ Technology Stack
-
-### Frontend
-
-* React 18
-* Vite
-* Tailwind CSS
-* Lucide React
-
-### Backend
-
-* Python 3.11
-* FastAPI
-* Uvicorn
-* Pydantic v2
-* HTTPX
-
-### AI
-
-* Google GenAI SDK
-* Gemini
-* Google Search grounding
-
-### Infrastructure
-
-* Docker
-* Google Cloud Run
-
----
-
-# 📁 Project Structure
+### `FEATURE LAYER`
 
 ```text
-kiro/
-│
-├── backend/
-│   ├── app/
-│   │   ├── agents/
-│   │   │   ├── orchestrator.py
-│   │   │   ├── researcher.py
-│   │   │   ├── verifier.py
-│   │   │   └── decision_maker.py
-│   │   │
-│   │   ├── core/
-│   │   │   └── config.py
-│   │   │
-│   │   ├── schemas/
-│   │   │   └── decision.py
-│   │   │
-│   │   └── main.py
-│   │
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx
-│   │   ├── index.css
-│   │   └── main.jsx
-│   │
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js
-│   └── vite.config.js
-│
-├── docs/
-│   └── architecture.md
-│
-├── .env.example
-├── .gitignore
-├── docker-compose.yml
-├── LICENSE
-└── README.md
+📍 PANDAL DISCOVERY
+🗺️ LOCATION + ROUTING
+📡 LIVE DARSHAN
+🎥 LIVE PANDAL STREAMING
+💬 DEVOTEE COMMUNITY
+🎬 CREATOR CONTENT
+🍬 BENGALI FOOD TRAIL
+📊 CROWD / ANALYTICS
+🥁 DHAK EXPERIENCE
+🌅 MAHALAYA EXPERIENCE
+🌐 ENGLISH / বাংলা / हिंदी
+🏛️ CLUB + PANDAL MANAGEMENT
+🥘 VENDOR MANAGEMENT
+📸 FESTIVAL MEDIA
 ```
+
+### `COVERAGE`
+
+`23 DISTRICTS OF WEST BENGAL`
+
+`8 NORTH-EASTERN STATES`
+
+**Stack**
+
+`HTML` · `CSS` · `JavaScript` · `Node.js` · `Express`
+
+**Deployment :: VERCEL**
+
+**STATUS :: 🟢 COMPLETED · LIVE**
+
+> **Not just a festival directory — a digital layer for experiencing Puja.**
 
 ---
 
-# 🚀 Local Setup
+## 📚 DECODE
 
-## 1. Clone
+### `STUDENT ACADEMIC RESOURCE PLATFORM`
 
-```bash
-git clone https://github.com/anirban-bhowmik-coder/Kiro.git
-cd Kiro
-```
-
-## 2. Backend
-
-```bash
-cd backend
-
-python -m venv venv
-```
-
-### Windows
-
-```bash
-.\venv\Scripts\activate
-```
-
-### macOS / Linux
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Start the API:
-
-```bash
-python -m uvicorn app.main:app --reload --port 8000
-```
-
-Health check:
+A student-focused platform designed to organize previous question papers and academic resources into a structured discovery system.
 
 ```text
-http://localhost:8000/health
+                         YEAR
+                          │
+                          ▼
+                        BRANCH
+                          │
+                          ▼
+                       SUBJECT
+                          │
+                          ▼
+                         PAPER
+                          │
+                          ▼
+                       RESOURCE
 ```
+
+### `VISION`
+
+`Previous Papers`
+
+`Student Sharing`
+
+`Comments`
+
+`Subject Mapping`
+
+`Solutions`
+
+`AI Assistance`
+
+**Stack ::** `HTML` · `CSS` · `JavaScript`
+
+**STATUS :: 🟡 IN PROGRESS**
 
 ---
 
-## 3. Frontend
+## 🦌 Chopper
 
-Open another terminal:
+### `PERSONAL AI COMPANION`
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open:
+An experimental personal AI assistant concept focused on creating a more interactive and privacy-conscious AI experience.
 
 ```text
-http://localhost:5173
+                    ┌──────────────────┐
+                    │    HEY CHOPPER   │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │   VOICE / INPUT  │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │     CHOPPER      │
+                    │   AI COMPANION   │
+                    └────────┬─────────┘
+                             │
+          ┌──────────────────┼──────────────────┐
+          ▼                  ▼                  ▼
+        VOICE            REMINDERS          DOCUMENTS
+          │                  │                  │
+          └──────────────────┼──────────────────┘
+                             ▼
+                       OS NOTIFICATIONS
 ```
+
+### `EXPERIMENTS`
+
+`Wake Word` · `Voice Interaction` · `Pop-up Assistant`
+
+`OS Notifications` · `Reminders` · `Document Organization`
+
+`Privacy-first Design` · `Android`
+
+**STATUS :: 🔵 EXPERIMENTAL**
 
 ---
 
-# 🔐 Environment Variables
+## 🎬 Movie Recommendation System
 
-Create a `.env` file inside `backend/`:
+### `RULE-BASED RECOMMENDATION ENGINE`
 
-```env
-GEMINI_API_KEY=your_api_key_here
-GEMINI_MODEL=your_supported_gemini_model
-```
-
-Never commit API keys, service-account credentials, or `.env` files to the repository.
-
----
-
-# ☁️ Deployment
-
-KIRO is containerized for deployment on Google Cloud Run.
-
-The intended production architecture is:
+A lightweight recommendation system that ranks movies using attribute-based scoring rather than machine learning.
 
 ```text
-User
- ↓
-KIRO
- ↓
-Google Cloud Run
- ↓
-FastAPI
- ↓
-Agent Workflow
- ↓
-Gemini + Grounded Search
- ↓
-Evidence + Decision
+┌─────────────────────────┬────────┐
+│ DIRECTOR MATCH          │  +5    │
+├─────────────────────────┼────────┤
+│ PRIMARY GENRE           │  +3    │
+├─────────────────────────┼────────┤
+│ SECONDARY GENRE         │  +2    │
+├─────────────────────────┼────────┤
+│ SIMILAR VIBE            │  +1    │
+└─────────────────────────┴────────┘
 ```
 
-The same application architecture can be run locally and in the cloud.
+```text
+MOVIE INPUT
+     ↓
+ATTRIBUTE MATCHING
+     ↓
+SCORE CALCULATION
+     ↓
+RANKING
+     ↓
+RECOMMENDATIONS
+```
+
+**Stack ::** `Python` · `Pandas` · `Streamlit`
+
+**STATUS :: 🟢 COMPLETED**
 
 ---
 
-# ⚠️ Limitations
+# 🧬 TECHNICAL DIRECTION
 
-KIRO does not guarantee that every generated conclusion is factually correct.
-
-Grounded retrieval and cross-source verification can reduce unsupported conclusions, but they cannot eliminate uncertainty or guarantee the correctness of external information.
-
-KIRO therefore treats:
-
-* source provenance
-* conflicting evidence
-* uncertainty
-* incomplete information
-
-as first-class parts of the decision process.
-
-The system should prefer **"insufficient evidence"** over an unsupported conclusion.
-
----
-
-# 🛣️ Roadmap
-
-### Foundation
-
-* [x] React interface
-* [x] FastAPI backend
-* [x] Pydantic data contracts
-* [x] Local development environment
-
-### Agent Intelligence
-
-* [ ] Live Gemini integration
-* [ ] Orchestrator implementation
-* [ ] Researcher implementation
-* [ ] Grounded search
-
-### Verification
-
-* [ ] Cross-source verification
-* [ ] Conflict detection
-* [ ] Evidence classification
-* [ ] Conditional re-research
-
-### Decision Intelligence
-
-* [ ] Evidence-backed recommendations
-* [ ] Confidence estimation
-* [ ] Risk analysis
-* [ ] Action planning
-
-### Cloud
-
-* [ ] Production container
-* [ ] Google Cloud Run deployment
-* [ ] Production configuration
-* [ ] Observability
-
-### Future
-
-* [ ] Persistent decision memory
-* [ ] Additional data sources
-* [ ] Multimodal investigations
-* [ ] Continuous decision monitoring
-* [ ] Expanded tool-based actions
+```text
+                    COMPUTER SCIENCE
+                           │
+                           ▼
+                       PROGRAMMING
+                           │
+                    ┌──────┴──────┐
+                    ▼             ▼
+                   C++          PYTHON
+                    │             │
+                    └──────┬──────┘
+                           ▼
+                          DATA
+                           │
+                           ▼
+                        AI / ML
+                           │
+                           ▼
+                     GENERATIVE AI
+                           │
+                           ▼
+                      AGENTIC AI
+                           │
+                           ▼
+                  INTELLIGENT SYSTEMS
+                           │
+                           ▼
+                     REAL-WORLD USE
+```
 
 ---
 
-# 📜 License
+# ⚙️ TECHNOLOGY CORE
 
-MIT License
+<div align="center">
+
+### LANGUAGES
+
+<img src="https://skillicons.dev/icons?i=python,cpp,c,html,css,js"/>
+
+<br><br>
+
+### TOOLS & DEVELOPMENT
+
+<img src="https://skillicons.dev/icons?i=git,github,vscode,linux,tensorflow"/>
+
+<br><br>
+
+`AI` · `MACHINE LEARNING` · `GENERATIVE AI` · `AGENTIC AI`
+
+`DATA ANALYSIS` · `WEB DEVELOPMENT` · `API DEVELOPMENT`
+
+</div>
 
 ---
 
-# KIRO
+# 🏆 ACHIEVEMENTS
 
-### **Know. Verify. Decide.**
+```text
+╔══════════════════════════════════════════════════════════════╗
+║                       ACHIEVEMENT.LOG                         ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║ 🚀 SMART INDIA HACKATHON 2026                               ║
+║    ROUND 03 → ROUND 04                                       ║
+║                                                              ║
+║ 🥇 INNOVATION 2025                                           ║
+║    1st Runner-Up — Actinus' Hand                             ║
+║                                                              ║
+║ ☁️ ORACLE                                                     ║
+║    OCI 2025 Certified Generative AI Professional             ║
+║                                                              ║
+║ 🌐 ICISESSC 2026                                              ║
+║    Student Volunteer                                         ║
+║                                                              ║
+║ ⚡ PROMPTMATRIX                                               ║
+║    Hackathon Participant                                     ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+```
 
-> **Don't just get an answer. Get a decision you can defend.**
+---
+
+# 📜 CERTIFICATION
+
+### Oracle Cloud Infrastructure 2025
+
+**Certified Generative AI Professional**
+
+---
+
+# 📊 GITHUB ACTIVITY
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=anirban-bhowmik-coder&show_icons=true&hide_border=true&bg_color=020617&title_color=06B6D4&icon_color=7C3AED&text_color=CBD5E1&include_all_commits=true&rank_icon=github"/>
+
+<img src="https://streak-stats.demolab.com?user=anirban-bhowmik-coder&hide_border=true&background=020617&ring=06B6D4&fire=7C3AED&currStreakLabel=06B6D4&sideLabels=CBD5E1&dates=64748B&currStreakNum=FFFFFF&sideNums=FFFFFF"/>
+
+<br><br>
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=anirban-bhowmik-coder&layout=compact&hide_border=true&bg_color=020617&title_color=06B6D4&text_color=CBD5E1&langs_count=8"/>
+
+</div>
+
+---
+
+# 🧪 BUILD PROTOCOL
+
+<div align="center">
+
+```text
+             ┌──────────────┐
+             │     IDEA     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │    EXPLORE   │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │   DESIGN     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │    BUILD     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │     TEST     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │    BREAK     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │    DEBUG     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │    LEARN     │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │   REBUILD    │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │   IMPROVE    │
+             └──────────────┘
+```
+
+</div>
+
+---
+
+# 🔭 WHAT'S NEXT
+
+```text
+                       AI / ML
+                          │
+             ┌────────────┼────────────┐
+             ▼            ▼            ▼
+          GEN AI       AGENTIC AI     DATA
+             │            │            │
+             └────────────┼────────────┘
+                          ▼
+                  INTELLIGENT SYSTEMS
+                          │
+                          ▼
+                 DECISION INTELLIGENCE
+                          │
+                          ▼
+                    REAL-WORLD AI
+```
+
+The goal is to move beyond simply **using AI tools** and gradually understand how intelligent systems are:
+
+`DESIGNED → BUILT → TESTED → VERIFIED → DEPLOYED`
+
+---
+
+# 🖥️ SYSTEM LOG
+
+```text
+[BOOT]        ANIRBAN.OS
+[LOAD]        COMPUTER SCIENCE
+[LOAD]        AI / ML
+[LOAD]        GENERATIVE AI
+[LOAD]        AGENTIC SYSTEMS
+
+[BUILD]       ZERO_TRACE
+[BUILD]       KIRO
+[BUILD]       DECODE
+
+[EXPERIMENT]  CHOPPER
+
+[DEPLOYED]    PUJA ELO
+[COMPLETE]    MOVIE RECOMMENDATION ENGINE
+
+[STATUS]      ████████████████████  ONLINE
+```
+
+---
+
+# 🌌 BEYOND THE CODE
+
+<div align="center">
+
+> **Ideas are easy to imagine.**  
+> **Building them is where the learning begins.**
+
+<br>
+
+```text
+BUILD
+  ↓
+BREAK
+  ↓
+DEBUG
+  ↓
+LEARN
+  ↓
+REBUILD
+  ↓
+SHIP
+  ↓
+REPEAT
+```
+
+<br>
+
+### ⚡ `BUILD • BREAK • LEARN • REBUILD`
+
+</div>
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:06b6d4,35:172554,70:111827,100:020617&height=180&section=footer&animation=fadeIn" width="100%"/>
+
+<br>
+
+<img src="https://komarev.com/ghpvc/?username=anirban-bhowmik-coder&style=for-the-badge&color=06b6d4&label=SYSTEM+VISITS"/>
+
+<br><br>
+
+```text
+╔══════════════════════════════════════════════╗
+║                                              ║
+║       THANK YOU FOR ENTERING THE SYSTEM      ║
+║                                              ║
+║              ANIRBAN BHOWMIK                 ║
+║                                              ║
+║    AI/ML STUDENT • BUILDER • EXPLORER        ║
+║                                              ║
+╚══════════════════════════════════════════════╝
+```
+
+### `ANIRBAN.OS // CONNECTION TERMINATED`
+
+</div>
