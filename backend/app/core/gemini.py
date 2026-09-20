@@ -1,43 +1,37 @@
-import logging
-from google import genai
-from app.core.config import settings
+"""Gemini client interface and helper utilities."""
+import os
+import json
+import re
+from typing import Optional, Any
+from .config import settings
 
-logger = logging.getLogger("kiro.gemini")
+def get_gemini_client():
+    """Initializes Google GenAI client lazily if GEMINI_API_KEY is present."""
+    api_key = os.getenv("GEMINI_API_KEY") or settings.GEMINI_API_KEY
+    if not api_key:
+        return None
+    try:
+        from google import genai
+        return genai.Client(api_key=api_key)
+    except Exception as e:
+        print(f"[KineticMesh] Warning: Could not initialize google.genai: {e}")
+        return None
 
-def call_gemini_with_fallback(client: genai.Client, contents, config=None):
-    """
-    Attempts generation with the configured model. If Google returns a 404 
-    (model retired for new keys), automatically falls back to active models.
-    """
-    candidate_models = [
-        settings.GEMINI_MODEL,
-        "gemini-2.0-flash",
-        "gemini-1.5-flash",
-        "gemini-2.5-flash"
-    ]
-    
-    # Deduplicate while preserving priority order
-    models_to_try = []
-    for m in candidate_models:
-        if m and m not in models_to_try:
-            models_to_try.append(m)
-
-    last_exc = None
-    for model_name in models_to_try:
-        try:
-            logger.info(f"Invoking Gemini model: {model_name}")
-            return client.models.generate_content(
-                model=model_name,
-                contents=contents,
-                config=config
-            )
-        except Exception as e:
-            err_msg = str(e).lower()
-            if "404" in err_msg or "not found" in err_msg or "no longer available" in err_msg:
-                logger.warning(f"Model {model_name} unavailable (404). Falling back to next candidate...")
-                last_exc = e
-                continue
-            # For non-404 errors (quota, auth), raise immediately
-            raise e
-
-    raise last_exc or RuntimeError("All candidate Gemini models failed.")
+def extract_json_payload(text: str) -> Optional[Any]:
+    """Safely extracts JSON dictionaries or arrays from markdown blocks or raw text."""
+    if not text:
+        return None
+    cleaned = text.strip()
+    if "```" in cleaned:
+        cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned, flags=re.MULTILINE)
+        cleaned = re.sub(r"\s*```$", "", cleaned, flags=re.MULTILINE).strip()
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        match = re.search(r"(\{[\s\S]*\}|\[[\s\S]*\])", cleaned)
+        if match:
+            try:
+                return json.loads(match.group(1))
+            except Exception:
+                return None
+        return None

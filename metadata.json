@@ -1,0 +1,8 @@
+{
+  "name": "KineticMesh",
+  "description": "Autonomous decision intelligence engine coordinating multi-agent research, verification, and synthesis with Google Search grounding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

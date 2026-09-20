@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #05070d;
+  color: #f1f5f9;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Monospace font utility */
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Atmospheric viewport lighting */
+.atmospheric-surface {
+  background-color: #05070d;
+  background-image: 
+    radial-gradient(120% 80% at 50% -10%, rgba(14, 165, 233, 0.08) 0%, transparent 65%),
+    radial-gradient(90% 60% at 85% 20%, rgba(99, 102, 241, 0.04) 0%, transparent 70%),
+    radial-gradient(70% 50% at 15% 45%, rgba(16, 185, 129, 0.03) 0%, transparent 60%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+  background-attachment: fixed;
+}
+
+/* Realistic Glass Panels */
+.glass-panel {
+  background: linear-gradient(135deg, rgba(13, 19, 32, 0.72) 0%, rgba(8, 12, 22, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 
+    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 20px 40px -15px rgba(0, 0, 0, 0.6);
+}
+
+.glass-panel-subtle {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.45) 0%, rgba(10, 15, 28, 0.65) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.glass-panel-elevated {
+  background: linear-gradient(145deg, rgba(18, 27, 46, 0.8) 0%, rgba(9, 14, 25, 0.92) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 
+    0 1px 0 0 rgba(255, 255, 255, 0.1) inset,
+    0 24px 48px -12px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+/* Specular Top Edge Light */
+.specular-top {
+  position: relative;
+}
+.specular-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+/* Refined Subtle Glows (Soft, Physically Believable, Non-Neon) */
+.glow-subtle-cyan {
+  box-shadow: 0 0 32px -8px rgba(56, 189, 248, 0.12);
+}
+
+.glow-subtle-amber {
+  box-shadow: 0 0 32px -8px rgba(245, 158, 11, 0.12);
+}
+
+.glow-subtle-emerald {
+  box-shadow: 0 0 32px -8px rgba(16, 185, 129, 0.12);
+}
+
+/* Custom Tactical Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060913;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
+}

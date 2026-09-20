@@ -1,1 +1,0 @@
-# Root backend application package
