@@ -1566,7 +1566,7 @@ async function startServer() {
   });
 
     // Vite middleware in development, static files in production
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.VERCEL === "1" || process.env.NODE_ENV === "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true, host: "0.0.0.0", port: 3000 },
       appType: "spa",
