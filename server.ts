@@ -1436,9 +1436,10 @@ setInterval(() => {
   }
 }, 5 * 60 * 1000).unref();
 
+const app = express();
+const PORT = 3000;
+
 async function startServer() {
-  const app = express();
-  const PORT = 3000;
 
   // Enforce bounded request body parsing (protect against memory exhaustion DoS)
   app.use(express.json({ limit: "100kb" }));
@@ -1564,7 +1565,7 @@ async function startServer() {
     }
   });
 
-  // Vite middleware in development, static files in production
+    // Vite middleware in development, static files in production
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true, host: "0.0.0.0", port: 3000 },
@@ -1579,9 +1580,13 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`KineticMesh server running on http://0.0.0.0:${PORT}`);
-  });
+  if (process.env.VERCEL !== "1") {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`KineticMesh server running on http://0.0.0.0:${PORT}`);
+    });
+  }
 }
 
 startServer();
+
+export default app;
