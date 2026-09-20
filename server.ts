@@ -1592,12 +1592,12 @@ async function startServer() {
 
     // SPA fallback. Never let the frontend fallback intercept API requests.
     app.get("/{*splat}", (req, res, next) => {
-    if (req.path.startsWith("/api/")) {
-    return next();
+      if (req.path.startsWith("/api/")) {
+      return next();
     }
 
     res.sendFile(path.join(distPath, "index.html"));
-  });
+    });
   }
 
   // ---------------------------------------------------------------------------
