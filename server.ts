@@ -1565,24 +1565,53 @@ async function startServer() {
     }
   });
 
-    // Vite middleware in development, static files in production
-  if (process.env.VERCEL === "1" || process.env.NODE_ENV === "production") {
+    // ---------------------------------------------------------------------------
+  // Frontend serving
+  // ---------------------------------------------------------------------------
+  // Development:
+  //   Use Vite middleware so `npm run dev` keeps HMR and the normal Vite flow.
+  //
+  // Production / Vercel:
+  //   Never start a Vite development server inside the serverless function.
+  //   Serve the already-built `dist` directory instead.
+  if (process.env.NODE_ENV !== "production" && process.env.VERCEL !== "1") {
     const vite = await createViteServer({
-      server: { middlewareMode: true, host: "0.0.0.0", port: 3000 },
+      server: {
+        middlewareMode: true,
+        host: "0.0.0.0",
+        port: Number(process.env.PORT) || PORT,
+      },
       appType: "spa",
     });
+
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
+
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
+
+    // SPA fallback. Never let the frontend fallback intercept API requests.
+    app.get("*", (req, res, next) => {
+      if (req.path.startsWith("/api/")) {
+        return next();
+      }
+
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
+  // ---------------------------------------------------------------------------
+  // Local server
+  // ---------------------------------------------------------------------------
+  // Vercel imports `app` as a serverless function, so do not call app.listen()
+  // when this file is running inside Vercel.
   if (process.env.VERCEL !== "1") {
-    app.listen(PORT, "0.0.0.0", () => {
-      console.log(`KineticMesh server running on http://0.0.0.0:${PORT}`);
+    const port = Number(process.env.PORT) || PORT;
+
+    app.listen(port, "0.0.0.0", () => {
+      console.log(
+        `[KineticMesh] Server running on http://0.0.0.0:${port}`
+      );
     });
   }
 }
