@@ -1591,13 +1591,13 @@ async function startServer() {
     app.use(express.static(distPath));
 
     // SPA fallback. Never let the frontend fallback intercept API requests.
-    app.get("*", (req, res, next) => {
-      if (req.path.startsWith("/api/")) {
-        return next();
-      }
+    app.get("/{*splat}", (req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+    return next();
+    }
 
-      res.sendFile(path.join(distPath, "index.html"));
-    });
+    res.sendFile(path.join(distPath, "index.html"));
+  });
   }
 
   // ---------------------------------------------------------------------------
